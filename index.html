@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #chat { width: 300px; border: 1px solid #ccc; padding: 10px; font-family: Arial; }
+    #messages { height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 5px; margin-bottom: 10px; }
+    .msg { margin: 5px 0; }
+    .user { color: blue; }
+    .bot { color: green; }
+  </style>
+</head>
+<body>
+
+<div id="chat">
+  <div id="messages"></div>
+  <input type="text" id="input" placeholder="Ask me something..." />
+  <button onclick="send()">Send</button>
+</div>
+
+<script>
+  const messages = document.getElementById('messages');
+  const input = document.getElementById('input');
+
+  const faq = {
+    'skills': 'I know JavaScript, Python, and AI chatbot development.',
+    'projects': 'I have built web apps and chatbots. Check my Projects section.',
+    'contact': 'Email me at example@mail.com.',
+    'hello': 'Hi there! How can I help you?'
+  };
+
+  function send() {
+    const text = input.value.trim().toLowerCase();
+    if (!text) return;
+    addMessage(text, 'user');
+    input.value = '';
+
+    let reply = 'Sorry, I didn\'t get that. Try asking about skills, projects, or contact.';
+    for (let key in faq) {
+      if (text.includes(key)) {
+        reply = faq[key];
+        break;
+      }
+    }
+    setTimeout(() => addMessage(reply, 'bot'), 500);
+  }
+
+  function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + sender;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  addMessage('Hello! Ask me about skills, projects, or contact.', 'bot');
+</script>
+
+</body>
+</html>
